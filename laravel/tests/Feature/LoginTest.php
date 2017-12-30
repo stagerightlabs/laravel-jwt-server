@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('api/login', [
             'email' => $user->email,
             'password' => 'secret'
         ]);
@@ -40,7 +40,7 @@ class LoginTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('api/login', [
             'email' => $user->email,
             'password' => 'invalid'
         ]);
@@ -56,9 +56,12 @@ class LoginTest extends TestCase
      */
     public function testLogoutAnAuthenticatedUser()
     {
+        $this->withoutExceptionHandling();
+
+
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user, 'api')->postJson('/logout');
+        $response = $this->actingAs($user, 'api')->postJson('api/logout');
 
         $response->assertStatus(204);
         $this->assertGuest('api');

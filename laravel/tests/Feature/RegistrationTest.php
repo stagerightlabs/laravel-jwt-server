@@ -19,7 +19,7 @@ class RegistrationTest extends TestCase
     {
         $user = factory(User::class)->make();
 
-        $response = $this->postJson('register', [
+        $response = $this->postJson('api/register', [
             'name' => $user->name,
             'email' => $user->email,
             'password' => 'secret',
@@ -40,7 +40,7 @@ class RegistrationTest extends TestCase
     {
         $user = factory(User::class)->make();
 
-        $response = $this->postJson('register', [
+        $response = $this->postJson('api/register', [
             'name' => $user->name,
             'email' => $user->email,
             'password' => 'secret',

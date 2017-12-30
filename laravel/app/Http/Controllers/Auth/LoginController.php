@@ -90,8 +90,6 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
-        $request->session()->regenerate();
-
         $this->clearLoginAttempts($request);
 
         return response()->json(['token' => $this->guard()->issue()], 200);
@@ -131,8 +129,6 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
-
-        $request->session()->invalidate();
 
         return response()->json([], 204);
     }
