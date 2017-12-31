@@ -48,6 +48,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException && $request->wantsJson()) {
+            return response()->json([
+                'message' => 'Invalid Token'
+            ], 401);
+        }
+
         return parent::render($request, $exception);
     }
 }

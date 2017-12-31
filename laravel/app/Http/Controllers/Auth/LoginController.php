@@ -31,8 +31,8 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+        if ($token = $this->guard()->attempt($this->credentials($request))) {
+            return $this->sendLoginResponse($request, $token);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -58,20 +58,6 @@ class LoginController extends Controller
     }
 
     /**
-     * Attempt to log the user into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request)
-    {
-        return $this->guard()->attempt(
-            $this->credentials($request),
-            $request->filled('remember')
-        );
-    }
-
-    /**
      * Get the needed authorization credentials from the request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -86,13 +72,18 @@ class LoginController extends Controller
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $token
      * @return \Illuminate\Http\Response
      */
-    protected function sendLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request, $token)
     {
         $this->clearLoginAttempts($request);
 
-        return response()->json(['token' => $this->guard()->issue()], 200);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
     }
 
     /**
@@ -140,7 +131,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**

@@ -27,7 +27,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['token']);
+        $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
         $this->assertAuthenticatedAs($user, 'api');
     }
 
@@ -56,12 +56,12 @@ class LoginTest extends TestCase
      */
     public function testLogoutAnAuthenticatedUser()
     {
-        $this->withoutExceptionHandling();
-
-
         $user = factory(User::class)->create();
+        $token = $this->generateValidJsonWebToken($user);
 
-        $response = $this->actingAs($user, 'api')->postJson('api/logout');
+        $response = $this->actingAs($user, 'api')->postJson('api/logout', [], [
+            'Authorization' => 'Bearer ' . $token
+        ]);
 
         $response->assertStatus(204);
         $this->assertGuest('api');

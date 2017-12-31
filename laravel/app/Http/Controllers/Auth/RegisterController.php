@@ -34,9 +34,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        Auth::guard('api')->login($user);
-
-        return response()->json(['token' => Auth::guard('api')->issue()], 201);
+        return response()->json(['token' => Auth::guard('api')->login($user)], 201);
     }
 
     /**
