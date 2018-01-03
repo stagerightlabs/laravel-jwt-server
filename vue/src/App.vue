@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container mx-auto bg-white h-screen shadow-md">
+  <div id="app" class="container mx-auto bg-white min-h-screen shadow-md">
     <nav class="flex items-center justify-between flex-wrap bg-purple p-6">
       <div class="flex items-center flex-no-shrink text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">Laravel Vue JWT</span>

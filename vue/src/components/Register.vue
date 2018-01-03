@@ -65,8 +65,8 @@ export default {
         email: '',
         password: '',
         password_confirmation: ''
-      }
-      // api: process.env.API_URL
+      },
+      apiUrl: process.env.API_URL
     }
   },
   methods: {
