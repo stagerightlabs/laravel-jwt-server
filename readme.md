@@ -1,6 +1,6 @@
 # JWT with Laravel and Vue.js
 
-
+This repo is a "proof of concept" for using [JWT]() to secure commincations between a Vue.js SPA and a Laravel PHP api.  We are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.
 
 
 ## Installation
@@ -23,7 +23,6 @@ Make sure to update your `.env` ``"DB_DATABASE"`` value to be the absolute path 
 ```bash
 ~/project/vue$ npm install
 ```
-
 
 ## Serving
 
@@ -65,3 +64,17 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Tests
+
+### Laravel
+
+The PHP unit tests can be run like so:
+
+```bash
+~/project/laravel$ vendor/bin/phpunit
+```
+
+### Vue.js
+
+This project does not yet have any unit tests for the Vue.js components, but hopefully I can add those at a later date.
