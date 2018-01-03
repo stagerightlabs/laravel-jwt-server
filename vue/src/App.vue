@@ -2,7 +2,7 @@
   <div id="app" class="container mx-auto bg-white h-screen shadow-md">
     <nav class="flex items-center justify-between flex-wrap bg-purple p-6">
       <div class="flex items-center flex-no-shrink text-white mr-6">
-        <span class="font-semibold text-xl tracking-tight">JWT Example</span>
+        <span class="font-semibold text-xl tracking-tight">Laravel Vue JWT</span>
       </div>
       <div class="block lg:hidden">
         <button class="flex items-center px-3 py-2 border rounded text-purple-lighter border-purple-light hover:text-white hover:border-white">
@@ -20,6 +20,7 @@
           </a>
         </div>
         <div>
+          <router-link :to="{ name: 'Register' }" class="inline-block text-sm px-4 py-2 leading-none rounded text-white hover:text-teal hover:bg-white mt-4 lg:mt-0">Register</router-link>
           <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Download</a>
         </div>
       </div>
