@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container mx-auto bg-white min-h-screen shadow-md">
+  <div id="app" class="container mx-auto bg-white min-h-screen shadow-md flex flex-col justify-between">
     <nav class="flex items-center justify-between flex-wrap bg-purple p-6">
       <div class="flex items-center flex-no-shrink text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">Laravel Vue JWT</span>
@@ -28,11 +28,20 @@
     <div class="p-8">
       <router-view/>
     </div>
+    <div class="p-4 bg-grey-lighter">
+      <h5>window.auth</h5>
+      <pre>{{ auth }}</pre>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data() {
+    return {
+      auth: window.auth
+    }
+  }
 }
 </script>
