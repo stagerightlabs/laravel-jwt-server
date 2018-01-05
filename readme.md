@@ -24,7 +24,7 @@ Make sure to update your `.env` ``"DB_DATABASE"`` value to be the absolute path 
 ~/project/vue$ npm install
 ```
 
-If you are not going to use the default PHP server domain (http://127.0.0.1:8000) as your API url, you can specify your own by creating a file in the root of the Vue application directory called `env.js` with this format:
+If you are not going to use the default PHP server domain (http://127.0.0.1:8000) as your API url, you can specify your own by creating a file in the root of the Vue application directory called `.env.js` with this format:
 
 ```javascript
 'use strict'

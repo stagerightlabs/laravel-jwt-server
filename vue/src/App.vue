@@ -25,19 +25,25 @@
         </div>
       </div>
     </nav>
-    <div class="p-8">
+    <div class="p-8 flex-auto">
       <router-view/>
     </div>
     <div class="p-4 bg-grey-lighter">
       <h5>window.auth</h5>
       <pre>{{ auth }}</pre>
     </div>
+    <flash-stack></flash-stack>
   </div>
 </template>
 
 <script>
+import FlashStack from './components/FlashStack.vue'
+
 export default {
   name: 'app',
+  components: {
+    'flash-stack': FlashStack
+  },
   data() {
     return {
       auth: window.auth

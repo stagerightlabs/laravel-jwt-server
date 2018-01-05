@@ -17,6 +17,14 @@ window.auth = {
   'expires_in': ''
 }
 
+// Set up event bus
+window.events = new Vue(); // Event bus
+
+// Set up global "flash" method
+window.flash = function (message, level = 'info') {
+  window.events.$emit('flash', message, level)
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
