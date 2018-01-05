@@ -24,6 +24,17 @@ Make sure to update your `.env` ``"DB_DATABASE"`` value to be the absolute path 
 ~/project/vue$ npm install
 ```
 
+If you are not going to use the default PHP server domain (http://127.0.0.1:8000) as your API url, you can specify your own by creating a file in the root of the Vue application directory called `env.js` with this format:
+
+```javascript
+'use strict'
+module.exports = {
+  API_URL: '"http://api.url"'
+}
+```
+
+This is optional.
+
 ## Serving
 
 ### Laravel
@@ -77,4 +88,10 @@ The PHP unit tests can be run like so:
 
 ### Vue.js
 
-This project does not yet have any unit tests for the Vue.js components, but hopefully I can add those at a later date.
+This project does not yet have any unit tests for the Vue.js components, but hopefully I will add those down the road.
+
+## Notes
+
+### CORS and CSRF Protection
+
+As you [can see here](app/Http/Middleware/VerifyCsrfToken.php#L15), we are explicitly disabling Laravel's built-in CSRF protection for the API endpoints.  To compensate that, we use the [barryvdh/laravel-cors](https://packagist.org/packages/barryvdh/laravel-cors) package to set up a Cross Origin Resource Sharing whitelist.  In this case we are using the "FRONTEND_URL" value in the `.env` file as the whitelisted domain.
