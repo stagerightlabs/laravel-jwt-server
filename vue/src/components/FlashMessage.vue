@@ -18,38 +18,22 @@ export default {
   computed: {
     styling() {
       if (this.level === 'success') {
-        return {
-          'bg-green-lightest': true,
-          'text-green-dark': true,
-          'border-green-light': true
-        }
+        return ['bg-green-lightest', 'text-green-dark', 'border-green-light']
       }
 
       if (this.level === 'info') {
-        return {
-          'bg-blue-lightest': true,
-          'text-blue-dark': true,
-          'border-blue-light': true
-        }
+        return ['bg-blue-lightest', 'text-blue-dark', 'border-blue-light']
       }
 
       if (this.level === 'warning') {
-        return {
-          'bg-yellow-lightest': true,
-          'text-yellow-dark': true,
-          'border-yellow-light': true
-        }
+        return ['bg-yellow-lightest', 'text-yellow-dark', 'border-yellow-light']
       }
 
       if (this.level === 'danger') {
-        return {
-          'bg-red-lightest': true,
-          'text-red-dark': true,
-          'border-red-light': true
-        }
+        return ['bg-red-lightest', 'text-red-dark', 'border-red-light']
       }
 
-      return {}
+      return []
     }
   },
   methods: {
