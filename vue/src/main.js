@@ -10,13 +10,6 @@ Vue.config.productionTip = false
 window.axios = require('axios')
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-// Set up a global auth object
-window.auth = {
-  'access_token': '',
-  'token_type': '',
-  'expires_in': ''
-}
-
 // Set up event bus
 window.events = new Vue(); // Event bus
 

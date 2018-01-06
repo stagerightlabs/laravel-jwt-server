@@ -19,9 +19,13 @@
             Tailwind CSS
           </a>
         </div>
-        <div>
+        <div v-if="!authenticated">
           <router-link :to="{ name: 'Register' }" class="inline-block text-sm px-4 py-2 leading-none rounded text-white hover:text-teal hover:bg-white mt-4 lg:mt-0">Register</router-link>
-          <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Download</a>
+          <router-link :to="{ name: 'Login' }"  class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Log In</router-link>
+        </div>
+        <div v-else>
+          Log Out
+          <!-- <router-link :to="{ name: 'Login' }"  class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Log In</router-link> -->
         </div>
       </div>
     </nav>
@@ -29,14 +33,15 @@
       <router-view/>
     </div>
     <div class="p-4 bg-grey-lighter">
-      <h5>window.auth</h5>
-      <pre>{{ auth }}</pre>
+      <h5>auth.token()</h5>
+      <pre class="whitespace-pre-wrap break-words">{{ token }}</pre>
     </div>
     <flash-stack></flash-stack>
   </div>
 </template>
 
 <script>
+import {authority} from './authority'
 import FlashStack from './components/FlashStack.vue'
 
 export default {
@@ -44,10 +49,24 @@ export default {
   components: {
     'flash-stack': FlashStack
   },
+  computed: {
+    token() {
+      return this.auth.token()
+    },
+    authenticated() {
+      return this.auth.authenticated()
+    }
+  },
   data() {
     return {
-      auth: window.auth
+      auth: authority
     }
+  },
+  created() {
+    authority.check()
+    window.events.$on('authorized', (jwt) => {
+      authority.login(jwt.access_token)
+    })
   }
 }
 </script>

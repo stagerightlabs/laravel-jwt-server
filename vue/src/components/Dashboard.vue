@@ -9,7 +9,6 @@
 export default {
   methods: {
     alert(message, level) {
-      console.log(level);
       window.flash(message, level)
     }
   }

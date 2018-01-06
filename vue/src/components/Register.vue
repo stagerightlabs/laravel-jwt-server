@@ -77,13 +77,15 @@ export default {
     register () {
       let self = this
       axios.post(this.apiUrl + "/api/register", this.registration)
-        .then(function(response) {
-          alert('registration complete')
+        .then(response => {
+          window.events.$emit('authorized', response.data)
+          window.events.$emit('flash', "Registration Successfull", 'success')
           this.resetForm()
         })
         .catch(error =>  {
-          console.log(error.response.data)
-          this.errors = error.response.data.errors
+          if (error.response.hasOwnProperty('data')) {
+            this.errors = error.response.data.errors
+          }
         })
     },
     resetForm () {
