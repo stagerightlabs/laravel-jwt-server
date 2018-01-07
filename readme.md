@@ -17,6 +17,13 @@ This repo is a "proof of concept" for using [Json Web Tokens](https://jwt.io/) t
 
 Make sure to update your `.env` ``"DB_DATABASE"`` value to be the absolute path to your newly created `database.sqlite` file, and the ``"FRONTEND_URL"`` value to the url for your vue js application instance.
 
+The [tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth) package uses its own "JWT_SECRET" env var as its encryption seed value.  Make sure you generate it by running:
+
+```bash
+~/project/laravel$ php artisan jwt:secret
+```
+
+FYI:  In this project we are using a develomment version of this package.  The setup instructions for the currently stable release are slightly different.  Also, for reasons I don't yet understand, using the variable name "JWT_SECRET" for the secret token was somehow not working.  Changing the name of the variable allowed it to work as expected.
 
 ### Vue.js
 

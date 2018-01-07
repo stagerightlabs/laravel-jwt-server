@@ -9,7 +9,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-full-name" type="email" placeholder="jane@example.com" v-model="credentials.email">
+          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter focus:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-full-name" type="email" placeholder="jane@example.com" v-model="credentials.email">
           <p class="text-red text-sm mt-1" v-if="hasError('email')">{{ getErrorMessage('email') }}</p>
         </div>
       </div>
@@ -20,7 +20,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter hover:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-username" type="password" placeholder="******************" v-model="credentials.password">
+          <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter focus:border-purple rounded w-full py-2 px-4 text-grey-darker" id="inline-username" type="password" placeholder="******************" v-model="credentials.password">
           <p class="text-red text-sm mt-1" v-if="hasError('password')">{{ getErrorMessage('password') }}</p>
         </div>
       </div>

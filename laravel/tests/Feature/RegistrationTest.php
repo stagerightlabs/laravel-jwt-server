@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $response->assertJsonStructure(['token']);
+        $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
         $this->assertDatabaseHas('users', ['name' => $user->name, 'email' => $user->email]);
     }
 

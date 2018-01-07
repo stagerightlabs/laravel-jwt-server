@@ -1,15 +1,17 @@
 export let authority = {
   user: {
     authenticated: false,
+    email: ''
   },
 
   login(jwt) {
-    localStorage.setItem('token', jwt)
+    localStorage.setItem('auth_token', jwt)
     this.user.authenticated = true
   },
 
   logout() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('auth_token')
+    this.user.authenticated = false
   },
 
   check() {
@@ -29,7 +31,11 @@ export let authority = {
   },
 
   token() {
-    return localStorage.getItem('token') || null
+    return localStorage.getItem('auth_token');
+  },
+
+  email() {
+    return this.user.email
   },
 
   header() {

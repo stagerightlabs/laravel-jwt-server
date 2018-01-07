@@ -14,7 +14,7 @@ return [
 
     'supportsCredentials' => false,
     'allowedOrigins' => [getenv('FRONTEND_URL')],
-    'allowedHeaders' => ['Content-Type', 'X-Requested-With'],
+    'allowedHeaders' => ['Authorization', 'Content-Type', 'X-Requested-With'],
     'allowedMethods' => ['GET','POST','PUT', 'OPTIONS'],
     'exposedHeaders' => [],
     'maxAge' => 0,

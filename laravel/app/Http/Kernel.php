@@ -27,15 +27,15 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
+        // 'web' => [
+        //     \App\Http\Middleware\EncryptCookies::class,
+        //     \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        //     \Illuminate\Session\Middleware\StartSession::class,
+        //     // \Illuminate\Session\Middleware\AuthenticateSession::class,
+        //     \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        //     \App\Http\Middleware\VerifyCsrfToken::class,
+        //     \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        // ],
 
         'api' => [
             'throttle:60,1',
@@ -58,5 +58,20 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+    ];
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * Forces the listed middleware to always be in the given order.
+     *
+     * We want to make sure that the CORS middleware is always run
+     * before the auth.api middleware.  This way an unauthenticated
+     * request is not flagged with a CORS error.
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \Barryvdh\Cors\HandleCors::class,
     ];
 }

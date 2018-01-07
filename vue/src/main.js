@@ -3,12 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import { authority } from './authority'
 
 Vue.config.productionTip = false
 
 // Bootstrap a global axios instance
 window.axios = require('axios')
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+
+// Set up global "auth" object
+window.authority = authority
 
 // Set up event bus
 window.events = new Vue(); // Event bus
@@ -17,6 +21,7 @@ window.events = new Vue(); // Event bus
 window.flash = function (message, level = 'info') {
   window.events.$emit('flash', message, level)
 }
+
 
 /* eslint-disable no-new */
 new Vue({

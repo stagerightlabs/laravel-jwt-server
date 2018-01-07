@@ -24,8 +24,7 @@
           <router-link :to="{ name: 'Login' }"  class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Log In</router-link>
         </div>
         <div v-else>
-          Log Out
-          <!-- <router-link :to="{ name: 'Login' }"  class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Log In</router-link> -->
+          <button class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0" @click="logout">Log Out</button>
         </div>
       </div>
     </nav>
@@ -33,7 +32,8 @@
       <router-view/>
     </div>
     <div class="p-4 bg-grey-lighter">
-      <h5>auth.token()</h5>
+      <h5>auth.token</h5>
+      <p>Email: {{ userEmail }}</p>
       <pre class="whitespace-pre-wrap break-words">{{ token }}</pre>
     </div>
     <flash-stack></flash-stack>
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import {authority} from './authority'
 import FlashStack from './components/FlashStack.vue'
 
 export default {
@@ -55,11 +54,29 @@ export default {
     },
     authenticated() {
       return this.auth.authenticated()
+    },
+    userEmail() {
+      return this.auth.email()
     }
   },
   data() {
     return {
-      auth: authority
+      auth: window.authority,
+      apiUrl: process.env.API_URL,
+    }
+  },
+  methods: {
+    logout() {
+      axios.post(this.apiUrl + '/api/logout', {}, {
+        headers: authority.header()
+      })
+        .then(response => {
+          authority.logout()
+          window.flash("Your session has been terminated.", "success")
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   created() {
@@ -67,6 +84,7 @@ export default {
     window.events.$on('authorized', (jwt) => {
       authority.login(jwt.access_token)
     })
+
   }
 }
 </script>
