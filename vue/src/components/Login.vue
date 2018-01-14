@@ -32,6 +32,11 @@
             type="button"
             @click.prevent="login">Login
           </button>
+          <button
+            class="shadow bg-white border-1 border-purple hover:bg-purple-light text-black font-bold py-2 px-4 rounded"
+            type="button"
+            @click.prevent="forgot">Forgot Password
+          </button>
         </div>
       </div>
     </form>
@@ -39,7 +44,10 @@
 </template>
 
 <script>
+import validation from '../mixins/validation'
+
 export default {
+  mixins: [validation],
   data () {
     return {
       credentials: {
@@ -47,10 +55,12 @@ export default {
         password: ''
       },
       apiUrl: process.env.API_URL,
-      errors: {}
     }
   },
   methods: {
+    forgot() {
+      this.$router.push({name: 'ForgotPassword'})
+    },
     login () {
       let self = this
       this.clearErrors()
@@ -74,17 +84,6 @@ export default {
       }
       this.clearErrors()
     },
-    clearErrors () {
-      this.errors = {}
-    },
-    hasError (key) {
-      return this.errors.hasOwnProperty(key)
-    },
-    getErrorMessage (key) {
-      if (this.errors.hasOwnProperty(key)) {
-        return this.errors[key][0]
-      }
-    }
   }
 }
 </script>
