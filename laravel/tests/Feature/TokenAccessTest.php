@@ -30,7 +30,7 @@ class TokenAccessTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'secret code words' => [
+            'code   words' => [
                 'kappa',
                 'epsilon',
                 'omicron',

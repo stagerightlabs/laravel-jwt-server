@@ -15,6 +15,9 @@
           <router-link :to="{ name: 'Dashboard' }" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white mr-4">
             Dashboard
           </router-link>
+          <router-link :to="{name: 'Secrets'}" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white mr-4">
+            Secrets
+          </router-link>
           <a href="https://tailwindcss.com" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white" target="blank">
             Tailwind CSS
           </a>
@@ -68,12 +71,14 @@ export default {
   },
   methods: {
     logout() {
+      let self = this
       axios.post(this.apiUrl + '/api/logout', {}, {
         headers: authority.header()
       })
         .then(response => {
           authority.logout()
           window.flash("Your session has been terminated.", "success")
+          self.$router.push({name: 'Login'})
         })
         .catch(error => {
           console.log(error)

@@ -11,12 +11,12 @@
 export default {
   data() {
     return {
-      data: window.authority
+      auth: window.authority
     }
   },
   computed: {
     email() {
-      return window.authority.user.email
+      return this.auth.user.email
     }
   },
   methods: {

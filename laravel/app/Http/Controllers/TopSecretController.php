@@ -14,7 +14,7 @@ class TopSecretController extends Controller
     public function get()
     {
         return response()->json([
-            'secret code words' => [
+            'codewords' => [
                 'kappa',
                 'epsilon',
                 'omicron',
