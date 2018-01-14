@@ -11,19 +11,21 @@
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
+          <div v-if="authenticated">
           <router-link :to="{ name: 'Dashboard' }" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white mr-4">
             Dashboard
           </router-link>
-          <router-link :to="{ name: 'HelloWorld' }" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white mr-4">Hello</router-link>
           <a href="https://tailwindcss.com" class="block mt-4 lg:inline-block lg:mt-0 text-purple-lighter hover:text-white" target="blank">
             Tailwind CSS
           </a>
+          </div>
         </div>
         <div v-if="!authenticated">
           <router-link :to="{ name: 'Register' }" class="inline-block text-sm px-4 py-2 leading-none rounded text-white hover:text-teal hover:bg-white mt-4 lg:mt-0">Register</router-link>
           <router-link :to="{ name: 'Login' }"  class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Log In</router-link>
         </div>
         <div v-else>
+          <span class="text-white">{{ userEmail }}</span>
           <button class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0" @click="logout">Log Out</button>
         </div>
       </div>
@@ -33,7 +35,6 @@
     </div>
     <div class="p-4 bg-grey-lighter">
       <h5>auth.token</h5>
-      <p>Email: {{ userEmail }}</p>
       <pre class="whitespace-pre-wrap break-words">{{ token }}</pre>
     </div>
     <flash-stack></flash-stack>
@@ -50,13 +51,13 @@ export default {
   },
   computed: {
     token() {
-      return this.auth.token()
+      return this.auth.user.token
     },
     authenticated() {
       return this.auth.authenticated()
     },
     userEmail() {
-      return this.auth.email()
+      return this.auth.user.email
     }
   },
   data() {
@@ -76,13 +77,15 @@ export default {
         })
         .catch(error => {
           console.log(error)
+          authority.logout()
+          window.flash("Your session has been terminated.", "success")
         })
     }
   },
   created() {
     authority.check()
     window.events.$on('authorized', (jwt) => {
-      authority.login(jwt.access_token)
+      authority.login(jwt)
     })
 
   }

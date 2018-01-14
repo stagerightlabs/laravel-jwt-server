@@ -37,7 +37,8 @@ class RegisterController extends Controller
         return response()->json([
             'access_token' => Auth::guard('api')->login($user),
             'token_type' => 'bearer',
-            'expires_in' => Auth::guard()->factory()->getTTL() * 60
+            'expires_in' => Auth::guard()->factory()->getTTL() * 60,
+            'auth_email' => Auth::guard()->user()->email,
         ], 201);
     }
 

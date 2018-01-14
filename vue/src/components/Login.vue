@@ -57,6 +57,7 @@ export default {
       axios.post(this.apiUrl + "/api/login", this.credentials)
         .then(response =>  {
           window.events.$emit('authorized', response.data)
+          window.authority.user.email = this.credentials.email
           this.resetForm()
         })
         .catch(error => {

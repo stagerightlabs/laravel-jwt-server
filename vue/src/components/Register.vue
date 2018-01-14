@@ -80,6 +80,7 @@ export default {
         .then(response => {
           window.events.$emit('authorized', response.data)
           window.events.$emit('flash', "Registration Successfull", 'success')
+          window.authority.user.email = this.registration.email
           this.resetForm()
         })
         .catch(error =>  {
