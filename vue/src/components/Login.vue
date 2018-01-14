@@ -58,6 +58,7 @@ export default {
         .then(response =>  {
           window.events.$emit('authorized', response.data)
           window.authority.user.email = this.credentials.email
+          this.$router.push({name: 'Dashboard'})
           this.resetForm()
         })
         .catch(error => {
