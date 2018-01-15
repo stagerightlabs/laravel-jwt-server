@@ -10,6 +10,7 @@ Vue.config.productionTip = false
 // Bootstrap a global axios instance
 window.axios = require('axios')
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+require('promise.prototype.finally').shim();
 
 // Set up global "auth" object
 window.authority = authority
