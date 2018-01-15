@@ -88,7 +88,9 @@ export default {
     }
   },
   created() {
-    authority.check()
+    if (authority.check()) {
+      this.$router.push({name: 'Dashboard'})
+    }
     window.events.$on('authorized', (jwt) => {
       authority.login(jwt)
     })
