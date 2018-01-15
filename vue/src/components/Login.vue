@@ -33,7 +33,7 @@
             @click.prevent="login">Login
           </button>
           <button
-            class="shadow bg-white border-1 border-purple hover:bg-purple-light text-black font-bold py-2 px-4 rounded"
+            class="bg-transparent hover:bg-purple text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple hover:border-transparent rounded"
             type="button"
             @click.prevent="forgot">Forgot Password
           </button>

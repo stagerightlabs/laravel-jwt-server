@@ -27,9 +27,9 @@ export default {
       })
       .catch(function(error) {
         console.log(error)
-        // if (error.response.data.hasOwnProperty('message')) {
-        //   window.flash(error.response.data.message, 'danger')
-        // }
+        if (error.response.data.hasOwnProperty('message')) {
+          window.flash(error.response.data.message, 'danger')
+        }
       })
     }
   },
