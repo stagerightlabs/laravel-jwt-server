@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TokenAccessTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function guests_cannot_view_protected_content()
     {
@@ -30,7 +32,7 @@ class TokenAccessTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'code   words' => [
+            'codewords' => [
                 'kappa',
                 'epsilon',
                 'omicron',

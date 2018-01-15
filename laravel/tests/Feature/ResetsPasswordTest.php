@@ -13,6 +13,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ResetsPasswordTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Sends the password reset email when the user exists.
      *
@@ -27,7 +29,10 @@ class ResetsPasswordTest extends TestCase
         $response = $this->postJson('api/password/email', ['email' => $user->email]);
 
         $response->assertStatus(200);
-        Notification::assertSentTo($user, ResetPasswordNotification::class);
+        $token = \DB::table('password_resets')->where('email', $user->email)->value('token');
+        Notification::assertSentTo($user, ResetPasswordNotification::class, function($notification) use ($token) {
+            return \Hash::check($notification->token, $token);
+        });
     }
     /**
      * Does not send a password reset email when the user does not exist.
