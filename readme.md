@@ -102,3 +102,8 @@ This project does not yet have any unit tests for the Vue.js components, but hop
 ### CORS and CSRF Protection
 
 As you [can see here](https://github.com/SRLabs/laravel-vue-jwt/blob/master/laravel/app/Http/Middleware/VerifyCsrfToken.php#L15), we are explicitly disabling Laravel's built-in CSRF protection for the API endpoints.  To compensate for that, we use the [barryvdh/laravel-cors](https://packagist.org/packages/barryvdh/laravel-cors) package to set up a Cross Origin Resource Sharing whitelist.  In this case we use the "FRONTEND_URL" value from the `.env` settings as the whitelisted domain.
+
+
+### Routing
+
+The vue router instance in this project is set up to use HTML5 history mode by default, which removes the "#!" hashbangs from the front-end urls.  The vue router documentation reccomends setting up a catch-all route, which has been done here, but you may need to [adjust your server settings](https://router.vuejs.org/en/essentials/history-mode.html) to ensure that pages are loaded correctly.
