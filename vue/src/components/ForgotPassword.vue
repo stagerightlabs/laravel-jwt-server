@@ -55,6 +55,9 @@ export default {
       })
       .catch(function(error) {
         console.log(error)
+        if (error.response.hasOwnProperty('data')) {
+          this.errors = error.response.data.errors
+        }
       })
       .finally(function() {
         self.$router.push({name: 'Login'})

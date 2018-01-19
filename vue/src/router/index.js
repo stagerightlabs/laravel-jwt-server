@@ -4,6 +4,7 @@ import Dashboard from '@/components/Dashboard'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import ForgotPassword from '@/components/ForgotPassword'
+import ResetPassword from '@/components/ResetPassword'
 import Secrets from '@/components/Secrets'
 import NotFound from '@/components/NotFound'
 
@@ -26,6 +27,12 @@ export default new Router({
       path: '/forgot-password',
       name: 'ForgotPassword',
       component: ForgotPassword
+    },
+    {
+      path: '/password/reset/:code',
+      name: 'ResetPassword',
+      component: ResetPassword,
+      props: true,
     },
     {
       path: '/',
