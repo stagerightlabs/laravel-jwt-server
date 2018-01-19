@@ -1,12 +1,13 @@
 # JWT with Laravel and Vue.js
 
-This repo is a "proof of concept" for using [Json Web Tokens](https://jwt.io/) to secure commincations between a Vue.js SPA and a Laravel PHP api.  We are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.
+This repo is a proof of concept demo for [Json Web Tokens](https://jwt.io/) to secure commincations between a Vue.js single page application and a Laravel PHP API.  In this project we are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.
 
 
 ## Installation
 
-### Laravel
+Start by cloning this project to your local dev machine.
 
+### Laravel
 
 ```bash
 ~/project/laravel$ composer install
@@ -15,15 +16,13 @@ This repo is a "proof of concept" for using [Json Web Tokens](https://jwt.io/) t
 ~/project/laravel$ php artisan key:generate
 ```
 
-Make sure to update your `.env` ``"DB_DATABASE"`` value to be the absolute path to your newly created `database.sqlite` file, and the ``"FRONTEND_URL"`` value to the url for your vue js application instance.
+Make sure to change the `.env` ``"DB_DATABASE"`` config value to be the absolute path of your newly created `database.sqlite` file, and the ``"FRONTEND_URL"`` value to be the url for your vue js application instance.
 
 The [tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth) package uses its own "JWT_SECRET" env var as its encryption seed value.  Make sure you generate it by running:
 
 ```bash
 ~/project/laravel$ php artisan jwt:secret
 ```
-
-FYI:  In this project we are using a develomment version of this package.  The setup instructions for the currently stable release are slightly different.  Also, for reasons I don't yet understand, using the variable name "JWT_SECRET" for the secret token was somehow not working.  Changing the name of the variable allowed it to work as expected.
 
 ### Vue.js
 
@@ -71,14 +70,6 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
