@@ -56,7 +56,7 @@ class LoginTest extends TestCase
      */
     public function testLogoutAnAuthenticatedUser()
     {
-        $user = factory(User::class)->create();
+        $this->withoutExceptionHandling();
         $token = $this->generateValidJsonWebToken($user);
 
         $response = $this->actingAs($user, 'api')->postJson('api/logout', [], [

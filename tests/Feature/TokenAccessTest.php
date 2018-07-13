@@ -17,7 +17,7 @@ class TokenAccessTest extends TestCase
         $response = $this->getJson('api/secrets');
 
         $response->assertStatus(401);
-        $response->assertJsonFragment(['message' => 'Invalid Token']);
+        $response->assertJsonFragment(['message' => 'Unauthenticated.']);
     }
 
     /** @test */
