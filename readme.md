@@ -1,7 +1,8 @@
-# JWT with Laravel and Vue.js
+# Laravel JWT Server
 
-This is a proof-of-concept demonstrating a Laravel API with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.  See the companion repository for an example of a VueJs JWT client application.
+[![Build Status](https://travis-ci.org/SRLabs/laravel-jwt-server.svg?branch=master)](https://travis-ci.org/SRLabs/laravel-jwt-server)
 
+This is a proof-of-concept demonstration of a Laravel API with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.  See the companion repository for an example of a VueJs JWT client application.
 
 ## Installation
 
