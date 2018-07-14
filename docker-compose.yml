@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  laravel:
+    build:
+      context: .
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+    command: php -S 0.0.0.0:8000 -t public/
+    ports:
+      - '8000:8000'
