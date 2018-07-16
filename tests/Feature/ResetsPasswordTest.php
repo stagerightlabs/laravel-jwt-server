@@ -30,7 +30,7 @@ class ResetsPasswordTest extends TestCase
 
         $response->assertStatus(200);
         $token = \DB::table('password_resets')->where('email', $user->email)->value('token');
-        Notification::assertSentTo($user, ResetPasswordNotification::class, function($notification) use ($token) {
+        Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) use ($token) {
             return \Hash::check($notification->token, $token);
         });
     }
@@ -46,8 +46,7 @@ class ResetsPasswordTest extends TestCase
 
         $response = $this->postJson('api/password/email', ['email' => 'invalid@email.com']);
 
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('email');
+        $response->assertStatus(200);
         Notification::assertNothingSent();
     }
 
