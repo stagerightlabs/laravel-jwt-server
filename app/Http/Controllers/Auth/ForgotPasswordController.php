@@ -26,9 +26,12 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+        // Send a generic response regardless of whether the request succeeded
+        return $this->sendResetLinkResponse(Password::RESET_LINK_SENT);
+
+        // return $response == Password::RESET_LINK_SENT
+        //             ? $this->sendResetLinkResponse($response)
+        //             : $this->sendResetLinkFailedResponse($request, $response);
     }
 
     /**
@@ -62,12 +65,17 @@ class ForgotPasswordController extends Controller
      */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response()->json([
-            'message' => 'Reset Link Request Failed',
-            'errors' => [
-                'email' => trans($response)
-            ]
-            ], 422);
+        // We don't want to indicate to the end-user that this is not
+        // a valid email address.
+        return response()->json(['message' => trans($response)]);
+
+        // This is the default error response:
+        // return response()->json([
+        //     'message' => 'Reset Link Request Failed',
+        //     'errors' => [
+        //         'email' => trans($response)
+        //     ]
+        //     ], 422);
     }
 
     /**
