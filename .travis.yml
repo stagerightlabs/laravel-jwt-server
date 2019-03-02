@@ -7,8 +7,13 @@ php:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --no-suggest --dev
+  - cp .env.travis .env
+  - touch database/database.sqlite
+  - php artisan key:generate
+  - php artisan migrate
   - php artisan passport:keys
 
-script: phpunit
+script:
+  - vendor/bin/phpunit
 
 sudo: false
