@@ -54,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
                     'client_secret' => $client->secret,
                     'username' => $request->get('email'),
                     'password' => $request->get('password'),
+                    'scope' => '*'
                 ])
             );
         });
