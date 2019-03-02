@@ -8,7 +8,6 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --no-suggest
   - cp .env.travis .env
-  - touch database/database.sqlite
   - php artisan key:generate
   - php artisan migrate
   - php artisan passport:keys
