@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;
 
 class LoginController extends Controller
 {
-    use ThrottlesLogins;
+    use HandlesOAuthErrors, ThrottlesLogins;
 
     /**
      * Handle a login request to the application.
@@ -31,8 +33,11 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($token = $this->guard()->attempt($this->credentials($request))) {
-            return $this->sendLoginResponse($request, $token);
+        // Delegate the login request to Passport
+        $response = response()->authorization($request);
+
+        if ($response->status() == 200) {
+            return $this->sendLoginResponse($request, $response);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -72,19 +77,14 @@ class LoginController extends Controller
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param string $token
+     * @param  \Illuminate\Http\Response $token
      * @return \Illuminate\Http\Response
      */
     protected function sendLoginResponse(Request $request, $token)
     {
         $this->clearLoginAttempts($request);
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'auth_email' => $this->guard()->user()->email,
-        ]);
+        return response()->json(json_decode($token->content(), true));
     }
 
     /**
@@ -120,7 +120,18 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        // Retrieve the access token
+        $accessToken = auth()->user()->token();
+
+        // Revoke the corresponding refresh token
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        // Revoke the access token
+        $accessToken->revoke();
 
         return response()->json([], 204);
     }
@@ -132,7 +143,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['login']]);
+        $this->middleware('guest')->except('logout');
+        $this->middleware('auth:api')->only('logout');
     }
 
     /**
@@ -142,6 +154,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('api');
+        return Auth::guard();
     }
 }

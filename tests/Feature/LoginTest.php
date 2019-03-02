@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
+use Laravel\Passport\Token;
+use Laravel\Passport\Client;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,8 +19,9 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testLoginAValidUser()
+    public function test_tokens_can_be_issued_to_valid_users()
     {
+        factory(Client::class)->state('password')->create();
         $user = factory(User::class)->create();
 
         $response = $this->postJson('api/login', [
@@ -26,9 +29,13 @@ class LoginTest extends TestCase
             'password' => 'secret'
         ]);
 
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
-        $this->assertAuthenticatedAs($user, 'api');
+        $response->assertJsonStructure([
+            'token_type',
+            'expires_in',
+            'access_token',
+            'refresh_token'
+        ]);
+        $this->assertEquals(1, Token::where('user_id', $user->id)->count());
     }
 
     /**
@@ -36,8 +43,9 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testDoesNotLoginAnInvalidUser()
+    public function test_invalid_users_cannot_be_issued_tokens()
     {
+        factory(Client::class)->state('password')->create();
         $user = factory(User::class)->create();
 
         $response = $this->postJson('api/login', [
@@ -46,7 +54,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertJsonValidationErrors('email');
-        $this->assertGuest('api');
+        $this->assertEquals(0, Token::count());
     }
 
     /**
@@ -54,17 +62,16 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testLogoutAnAuthenticatedUser()
+    public function test_tokens_can_be_revoked()
     {
-        $user = factory(User::class)->create();
+        $user = $this->actingAs(factory(User::class)->create());
+        $this->assertEquals(1, Token::where('user_id', $user->id)->where('revoked', false)->count());
+        $this->assertEquals(0, Token::where('user_id', $user->id)->where('revoked', true)->count());
 
-        $token = $this->generateValidJsonWebToken($user);
-
-        $response = $this->actingAs($user, 'api')->postJson('api/logout', [], [
-            'Authorization' => 'Bearer ' . $token
-        ]);
+        $response = $this->postJson(route('logout'));
 
         $response->assertStatus(204);
-        $this->assertGuest('api');
+        $this->assertEquals(0, Token::where('user_id', $user->id)->where('revoked', false)->count());
+        $this->assertEquals(1, Token::where('user_id', $user->id)->where('revoked', true)->count());
     }
 }

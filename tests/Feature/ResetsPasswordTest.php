@@ -4,8 +4,9 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
+use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ResetPasswordNotification;
@@ -60,6 +61,7 @@ class ResetsPasswordTest extends TestCase
     {
         $user = factory(User::class)->create();
         $token = Password::createToken($user);
+        factory(Client::class)->state('password')->create();
 
         $response = $this->post('api/password/reset', [
             'token' => $token,

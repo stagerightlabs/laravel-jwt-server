@@ -32,14 +32,12 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($this->create($request->all())));
 
-        return response()->json([
-            'access_token' => Auth::guard('api')->login($user),
-            'token_type' => 'bearer',
-            'expires_in' => Auth::guard()->factory()->getTTL() * 60,
-            'auth_email' => Auth::guard()->user()->email,
-        ], 201);
+        return response(
+            response()->authorization($request)->content(),
+            201
+        );
     }
 
     /**

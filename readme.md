@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/SRLabs/laravel-jwt-server.svg?branch=master)](https://travis-ci.org/SRLabs/laravel-jwt-server)
 
-This is a proof-of-concept demonstration of a Laravel API with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the "[tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth)" package.  See the companion repository for an example of a VueJs JWT client application.
+This is a proof-of-concept demonstration of a Laravel API with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the "[Laravel Passport](https://laravel.com/docs/master/passport)" package.  See the companion repository for an example of a VueJs JWT client application.
 
 ## Installation
 
@@ -15,13 +15,7 @@ Start by cloning this project to your local dev machine.  After that, install th
 ~/project/laravel$ php artisan key:generate
 ```
 
-The [tymon/jwt-auth](https://packagist.org/packages/tymon/jwt-auth) package uses its own "JWT_SECRET" env var as its encryption seed value.  Make sure you generate it by running:
-
-```bash
-~/project/laravel$ php artisan jwt:secret
-```
-
-Make sure to change the `.env` ``"DB_DATABASE"`` config value to be the absolute path of your newly created `database.sqlite` file, and the ``"FRONTEND_URL"`` value to be the url for your JWT client application.
+Make sure to change the `.env` `DB_DATABASE` config value to be the absolute path of your newly created `database.sqlite` file, and the ``"CORS_URL"`` value to be the url for your JWT client application.
 
 It is important to note that running `composer install` will not automatically run the database migrations.  Once you have confirmed that the database configuration values in the `.env` file are correct run the migrations like so:
 
@@ -29,7 +23,15 @@ It is important to note that running `composer install` will not automatically r
 php artisan migrate
 ```
 
-This will create an empty `users` table.
+Next, we will configure Laravel Passport:
+
+```bash
+~/project/laravel$ php artisan passport:install
+```
+
+The passport installation command will generate a "Password Grant" client secret.  Save this as the `PASSPORT_CLIENT_SECRET` value in your `.env` file.
+
+You should now be ready to go.
 
 ## Serving
 
@@ -51,4 +53,4 @@ vendor/bin/phpunit
 
 ## A note on CORS and CSRF Protection
 
-As you [can see here](https://github.com/SRLabs/laravel-vue-jwt/blob/master/laravel/app/Http/Middleware/VerifyCsrfToken.php#L15), we are explicitly disabling Laravel's built-in CSRF protection for the API endpoints.  To compensate for that, we use the [barryvdh/laravel-cors](https://packagist.org/packages/barryvdh/laravel-cors) package to set up a Cross Origin Resource Sharing whitelist.  In this case we use the "FRONTEND_URL" value from the `.env` settings as the whitelisted domain.
+As you [can see here](https://github.com/SRLabs/laravel-vue-jwt/blob/master/laravel/app/Http/Middleware/VerifyCsrfToken.php#L15), we are explicitly disabling Laravel's built-in CSRF protection for the API endpoints.  To compensate for that, we use the [barryvdh/laravel-cors](https://packagist.org/packages/barryvdh/laravel-cors) package to set up a Cross Origin Resource Sharing whitelist.  In this case we use the `CORS_URL` value from the `.env` settings as the white-listed domain.

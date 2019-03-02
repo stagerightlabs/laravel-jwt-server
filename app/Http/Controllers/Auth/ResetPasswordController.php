@@ -37,7 +37,7 @@ class ResetPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $response == Password::PASSWORD_RESET
-                    ? $this->sendResetResponse($response)
+                    ? $this->sendResetResponse($request, $response)
                     : $this->sendResetFailedResponse($request, $response);
     }
 
@@ -97,8 +97,6 @@ class ResetPasswordController extends Controller
         $user->save();
 
         event(new PasswordReset($user));
-
-        $this->guard()->login($user);
     }
 
     /**
@@ -107,9 +105,9 @@ class ResetPasswordController extends Controller
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetResponse($response)
+    protected function sendResetResponse(Request $request, $response)
     {
-        return response()->json(['message' => trans($response)]);
+        return response()->authorization($request);
     }
 
     /**

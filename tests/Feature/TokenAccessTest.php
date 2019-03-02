@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TokenAccessTest extends TestCase
@@ -23,12 +23,10 @@ class TokenAccessTest extends TestCase
     /** @test */
     public function valid_tokens_can_view_protected_content()
     {
-        $user = factory(User::class)->create();
-        $token = $this->generateValidJsonWebToken($user);
+        factory(Client::class)->state('password')->create();
+        $this->actingAs(factory(User::class)->create());
 
-        $response = $this->getJson('api/secrets', [
-            'Authorization' => 'Bearer ' . $token
-        ]);
+        $response = $this->getJson('api/secrets');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([

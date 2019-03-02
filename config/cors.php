@@ -13,7 +13,7 @@ return [
     */
 
     'supportsCredentials' => false,
-    'allowedOrigins' => [getenv('FRONTEND_URL')],
+    'allowedOrigins' => [getenv('CORS_URL')],
     'allowedHeaders' => ['Authorization', 'Content-Type', 'X-Requested-With'],
     'allowedMethods' => ['GET','POST','PUT', 'OPTIONS'],
     'exposedHeaders' => [],

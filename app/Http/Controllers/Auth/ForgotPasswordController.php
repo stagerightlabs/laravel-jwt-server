@@ -68,14 +68,6 @@ class ForgotPasswordController extends Controller
         // We don't want to indicate to the end-user that this is not
         // a valid email address.
         return response()->json(['message' => trans($response)]);
-
-        // This is the default error response:
-        // return response()->json([
-        //     'message' => 'Reset Link Request Failed',
-        //     'errors' => [
-        //         'email' => trans($response)
-        //     ]
-        //     ], 422);
     }
 
     /**
