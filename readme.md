@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/SRLabs/laravel-jwt-server.svg?branch=master)](https://travis-ci.org/SRLabs/laravel-jwt-server)
 
-This is a proof-of-concept demonstration of a Laravel API service with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the [Laravel Passport](https://laravel.com/docs/master/passport) package.  See the [companion repository](https://github.com/SRLabs/vue-jwt-client) for an example of a VueJs JWT client application that uses this API service.
+This is a proof-of-concept demonstration of a Laravel API service with authentication provided by [Json Web Tokens](https://jwt.io/).  In this project we are extending the native Laravel Auth tools to support JWT via the [Laravel Passport](https://laravel.com/docs/master/passport) package.  See the [companion repository](https://github.com/stagerightlabs/vue-jwt-client) for an example of a VueJs JWT client application that uses this API service.
 
 The current version of this project was built with these open source packages, among others:
 
